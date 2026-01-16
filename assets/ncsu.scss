@@ -101,7 +101,7 @@ main {
 }
 
 @media print {
-  #sidebar, #toc, #footer {
+  nav, #sidebar, #toc, #footer {
     display: none !important;
   }
   main {

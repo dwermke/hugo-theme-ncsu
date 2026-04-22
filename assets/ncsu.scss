@@ -273,6 +273,36 @@ main {
       padding-left: 0.75rem;
       overflow-wrap: anywhere;
     }
+
+    @media (max-width: 575.98px) {
+      grid-template-columns: minmax(0, 1fr);
+
+      .definition-list-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      dt,
+      dd {
+        text-align: left;
+        overflow-wrap: normal;
+        word-break: normal;
+      }
+
+      dt {
+        padding-right: 0.5rem;
+        border-right: 0;
+        border-bottom: 0;
+        padding-bottom: 0.15rem;
+        font-weight: 600;
+      }
+
+      dd {
+        padding-left: 0.5rem;
+        padding-top: 0;
+        padding-bottom: 0.75rem;
+      }
+    }
   }
 
   .card .definition-list {

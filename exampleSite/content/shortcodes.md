@@ -602,6 +602,17 @@ The overview shows:
 - a browser-local current-day marker when today appears in the displayed range
 
 Generic happenings are intentionally omitted from the overview. Empty days remain visible so the grid keeps a consistent weekday layout.
+For exams, add an assignment-style record with `type = "exam"`:
+
+```toml
+[midterm]
+id = "midterm"
+type = "exam"
+name = "Midterm Exam"
+short_name = "Midterm"
+date = "2024-09-05T18:00:00"
+color = "bg-danger"
+```
 
 **Usage**:
 

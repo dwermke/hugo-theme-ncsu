@@ -20,9 +20,11 @@
 <div class="schedule-overview" aria-label="Condensed course schedule">
 	<div class="schedule-overview-legend">
 		<span><i class="so-swatch so-lecture"></i> Lecture</span>
+		<span><i class="so-swatch so-recorded"></i> 📹 Pre-recorded</span>
 		<span><i class="so-swatch so-noclass"></i> No class</span>
 		<span><i class="so-swatch so-exam"></i> Exam</span>
 		<span><i class="so-swatch so-assignment"></i> Assignment due</span>
+		<span><i class="so-swatch so-today-legend"></i> Today</span>
 	</div>
 
 	<div class="schedule-overview-grid">
@@ -46,6 +48,7 @@
 				{{- range hugo.Data.lectures -}}
 					{{- if eq .date $dateKey -}}
 						{{- $cellClasses = $cellClasses | append "so-day-lecture" -}}
+						{{- if .recorded -}}{{- $cellClasses = $cellClasses | append "so-day-recorded" -}}{{- end -}}
 						{{- $lectureForDay = . -}}
 					{{- end -}}
 				{{- end -}}
@@ -79,9 +82,9 @@
 						{{- range hugo.Data.lectures -}}
 							{{- if eq .date $dateKey -}}
 								{{- if $assignmentForDay -}}
-									<a class="so-pill" href="#{{ .id }}" title="Lecture: {{ .title }}">{{ .id }}</a>
+									<a class="so-pill" href="#{{ .id }}" title="{{ if .recorded }}Pre-recorded lecture{{ else }}Lecture{{ end }}: {{ .title }}">{{ if .recorded }}<span class="so-recorded-icon" aria-hidden="true">📹</span>{{ end }}{{ .id }}</a>
 								{{- else -}}
-									<span class="so-pill" title="Lecture: {{ .title }}">{{ .id }}</span>
+									<span class="so-pill" title="{{ if .recorded }}Pre-recorded lecture{{ else }}Lecture{{ end }}: {{ .title }}">{{ if .recorded }}<span class="so-recorded-icon" aria-hidden="true">📹</span>{{ end }}{{ .id }}</span>
 								{{- end -}}
 							{{- end -}}
 						{{- end -}}
@@ -187,6 +190,9 @@ a.so-day:focus{
 	background:#dbeafe;
 	border-color:#93c5fd;
 }
+.so-day-recorded{
+	background:repeating-linear-gradient(135deg, #dbeafe 0, #dbeafe 6px, #dcfce7 6px, #dcfce7 12px);
+}
 .so-day-noclass{
 	background:#dcfce7;
 	border-color:#86efac;
@@ -223,6 +229,10 @@ a.so-day:focus{
 	flex:0 0 auto;
 	box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
 }
+.so-today-legend{
+	background:var(--bs-body-bg, #fff);
+	box-shadow:inset 0 0 0 2px #212529;
+}
 .so-pill{
 	display:inline-flex;
 	align-items:center;
@@ -237,10 +247,18 @@ a.so-day:focus{
 	text-decoration:none;
 	white-space:nowrap;
 }
+.so-recorded-icon{
+	font-size:.72rem;
+	margin-right:.14rem;
+}
 a.so-pill{
 	text-decoration:none;
 }
 .so-lecture{ background:#dbeafe; border-color:#93c5fd; }
+.so-recorded{
+	background:repeating-linear-gradient(135deg, #dbeafe 0, #dbeafe 4px, #dcfce7 4px, #dcfce7 8px);
+	border-color:#93c5fd;
+}
 .so-noclass{ background:#dcfce7; border-color:#86efac; }
 .so-exam{ background:#fee2e2; border-color:#fca5a5; }
 .so-assignment{ background:#fff; border:1px solid #dc3545; box-shadow:none; }
@@ -255,6 +273,41 @@ a.so-pill{
 	font-weight:700;
 	line-height:1;
 	white-space:nowrap;
+}
+@media (max-width: 575.98px){
+	.schedule-overview-grid{
+		grid-template-columns:repeat(5, minmax(3.1rem, 1fr));
+		gap:.2rem;
+	}
+	.so-week-head{
+		display:none;
+	}
+	.so-week-label{
+		grid-column:1 / -1;
+		min-height:auto;
+		margin-top:.35rem;
+		padding:.15rem 0 .08rem;
+		font-size:.72rem;
+		line-height:1;
+	}
+	.so-day{
+		min-height:2.55rem;
+		padding:.18rem .25rem;
+		flex-direction:column;
+		align-items:flex-start;
+		justify-content:flex-start;
+		gap:.15rem;
+	}
+	.so-items{
+		width:100%;
+		justify-content:flex-start;
+	}
+	.so-day-lecture .so-pill{
+		font-size:.58rem;
+	}
+	.so-day-lecture .so-recorded-icon{
+		font-size:.64rem;
+	}
 }
 </style>
 

@@ -5,6 +5,15 @@
 	{{- if eq .id $assignment -}}
 		{{- if eq $format "date" -}}
 			<span>{{ time.Format "Mon, Jan 2 - 3:04pm" .date }} {{ .time }}</span>
+		{{- else if eq $format "release_by" -}}
+			<span>{{ time.Format "Mon, Jan 2 - 3:04pm" .release_by }}</span>
+		{{- else if eq $format "release_countdown" -}}
+			<span class="countdown-timer" data-date="{{ .release_by }}" data-tz="America/New_York" data-expired-label="Released"></span>
+			{{- $needs := $.Page.Store.Get "needs" | default (slice) -}}
+			{{- if not (in $needs "moment") -}}{{- $needs = $needs | append "moment" -}}{{- end -}}
+			{{- if not (in $needs "moment-tz") -}}{{- $needs = $needs | append "moment-tz" -}}{{- end -}}
+			{{- if not (in $needs "countdown") -}}{{- $needs = $needs | append "countdown" -}}{{- end -}}
+			{{- $.Page.Store.Set "needs" $needs -}}
 		{{- else if eq $format "label" -}}
 			{{- if isset . "url" -}}
 				<a class="link-secondary small" id="{{- .short_name -}}" href="{{ .url }}">#{{- .short_name -}}</a>

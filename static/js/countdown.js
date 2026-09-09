@@ -1,6 +1,7 @@
 function setupCountdown(element) {
   const date = element.getAttribute("data-date");
   const tz = element.getAttribute("data-tz") || "America/New_York";
+  const expiredLabel = element.getAttribute("data-expired-label") || "Expired";
   const targetDate = moment.tz(date, tz);
 
   function updateCountdown() {
@@ -13,9 +14,11 @@ function setupCountdown(element) {
     const seconds = duration.seconds();
 
     if (duration.asMilliseconds() > 0) {
-      element.textContent = `${days}d ${hours}h ${minutes}h ${seconds}s`;
+      element.textContent = duration.asHours() < 24
+        ? `${hours}h ${minutes}m ${seconds}s`
+        : `${days}d ${hours}h ${minutes}m`;
     } else {
-      element.textContent = "Expired";
+      element.textContent = expiredLabel;
     }
   }
 

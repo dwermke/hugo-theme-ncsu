@@ -6,7 +6,9 @@
 <link rel="stylesheet" href={{ "bootstrap/css/bootstrap.css" | absURL }}>
 <!-- Theme-specific CSS -->
 {{- $cssTarget := "css/style.css" }}
-{{- $cssOptions	:= (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
+{{/* Bootstrap 5.3 still uses legacy Sass imports. Keep vendor files upstream;
+     suppress dependency deprecations and the wrapper import notices only. */}}
+{{- $cssOptions	:= (dict "targetPath" $cssTarget "outputStyle" "compressed" "includePaths" (slice "themes/hugo-theme-ncsu/assets/bootstrap") "silenceDependencyDeprecations" true "silenceDeprecations" (slice "import")) }}
 {{- $style := resources.Get "main.scss" | resources.ExecuteAsTemplate "config.main.scss" . | toCSS $cssOptions | fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
 

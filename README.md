@@ -65,3 +65,22 @@ Two ways:
 ## Releases
 - The main branch receives continous updates and features (although likely at a slow and non-breaking rate because static website theme).
 - Frozen releases are tagged and released with the name of upcoming semesters, e.g., `2024.08` for Fall semester 2024, you can set specific releases in the submodule to freeze the theme version.
+
+## Bundled Bootstrap
+
+The production theme bundles unmodified Bootstrap **5.3.9** from the official
+[npm archive](https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.9.tgz).
+The archive SHA-256 is `06bdf78289c3c12ea99d40df84eedf6278c724c73eebf38f11f3a65b44ec8c94`.
+
+1. Copy the package's `scss/` files into `assets/bootstrap/`.
+2. Copy its `dist/` files into `static/bootstrap/` and its `LICENSE` into `static/bootstrap/LICENSE`.
+3. Keep theme overrides in `assets/ncsu-variables.scss` and `assets/ncsu.scss`; do not patch Bootstrap files.
+4. Run a fresh Hugo build after updating.
+
+Bootstrap 5.3 still uses deprecated Sass syntax, as noted in its
+[Sass documentation](https://getbootstrap.com/docs/5.3/customize/sass/).
+The theme loads Bootstrap through a Sass include path and silences dependency
+deprecations in `layouts/partials/head.html`. Import deprecations are also
+silenced because the theme wrapper must use Bootstrap's legacy import API.
+Other warnings from theme code remain enabled. Revisit these settings when
+upstream provides a compatible module-based release.
